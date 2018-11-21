@@ -2,70 +2,70 @@
 public class Player {
 	
 	/*Players position on board*/
-	private double x;
-	private double y;
+	private int x;
+	private int y;
 	/*Players current speed*/
-	private double xs = 0;
-	private double ys = 0;
+	private int xs = 0;
+	private int ys = 0;
 	/*Players acceleration*/
-	private double xa = 2;
-	private double ya = 2;
+	private int xa = 2;
+	private int ya = 2;
 	/*Players weight*/
 	private int xSize;
 	private int ySize;
 	
-	public Player(double x, double y, int xSize, int ySize) {
+	public Player(int x, int y, int xSize, int ySize) {
 		setXPos(x);
 		setYPos(y);
 		setXSize(xSize);
 		setYSize(ySize);
 	}
 	
-	public double getXPos() {
+	public int getXPos() {
 		return this.x;
 	}
 	
-	public void setXPos(double xPos) {
+	public void setXPos(int xPos) {
 		this.x = xPos;
 	}
 	
-	public double getYPos() {
+	public int getYPos() {
 		return this.y;
 	}
 	
-	public void setYPos(double yPos) {
+	public void setYPos(int yPos) {
 		this.y = yPos;
 	}
 	
-	public double getXSpeed() {
+	public int getXSpeed() {
 		return xs;
 	}
 	
-	public void setXSpeed(double xSpeed) {
+	public void setXSpeed(int xSpeed) {
 		this.xs = xSpeed;
 	}
 	
-	public double getYspeed() {
+	public int getYspeed() {
 		return this.ys;
 	}
 	
-	public void setYSpeed(double ySpeed) {
+	public void setYSpeed(int ySpeed) {
 		this.ys = ySpeed;
 	}
 	
-	public double getXaAccel() {
+	public int getXaAccel() {
 		return this.xa;
 	}
 	
-	public void setXAccel(double xAccell) {
+	public void setXAccel(int xAccell) {
 		this.xa = xAccell;
 	}
 	
-	public double getYAccel() {
+	public int getYAccel() {
 		return this.ya;
 	}
 	
-	public void setYaccel(double yAccell) {
+	public void setYaccel(int yAccell) {
 		this.ya = yAccell;
 	}
 	
