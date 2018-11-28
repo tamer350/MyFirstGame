@@ -14,12 +14,31 @@ public class Player {
 	private int xSize;
 	private int ySize;
 	
+	private int maxSpeed = 15;
+	
 	public Player(int x, int y, int xSize, int ySize) {
 		setXPos(x);
 		setYPos(y);
 		setXSize(xSize);
 		setYSize(ySize);
 	}
+	
+	public void xLine(int xl, int keyCode) {
+		if(xl > 0 && keyCode == 68) {
+			if(this.xs < this.maxSpeed) {
+				this.xs += this.xa;
+			}
+		}
+		else if(xl < 0 && keyCode == 68) {
+			if(this.xs > 0) {
+				this.xs -= this.xa;
+			}	
+		}
+		this.x += this.xs;
+		System.out.println(this.xs);
+	}
+	
+	
 	
 	public int getXPos() {
 		return this.x;
@@ -83,5 +102,13 @@ public class Player {
 	
 	public void setYSize(int ySize) {
 		this.ySize = ySize;
+	}
+	
+	public int getMaxSpeed() {
+		return this.maxSpeed;
+	}
+	
+	public void setMaxSpeed(int nMSpeed) {
+		this.maxSpeed = nMSpeed;
 	}
 }

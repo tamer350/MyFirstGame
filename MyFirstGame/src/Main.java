@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Main extends JPanel{
+public class Main extends JPanel implements KeyListener{
 	
 	/**
 	 * 
@@ -31,15 +31,51 @@ public class Main extends JPanel{
 		frame.setVisible(true);
 		frame.setSize(this.frameXSize, this.frameYSize);
 		frame.setLocation(this.frameXLoc, this.frameYLoc);
+		frame.addKeyListener(this);
 	}
 	
 	public void paint(Graphics g) {
+		super.paintComponent(g);
 		g.drawRect(this.p.getXPos(), this.p.getYPos(), this.p.getXSize(), this.p.getYSize());
 	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		
+		if(key == 68){
+			p.xLine(1,key);
+		}
+		
+		this.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		int playsXs = p.getXSpeed();
+		while(playsXs > 0){
+			
+			p.xLine(-1, key);
+			this.repaint();	
+			playsXs = p.getXSpeed();
+			
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();
 	}
 
+	
 }
