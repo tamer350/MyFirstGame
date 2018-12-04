@@ -1,6 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
 import javax.swing.*;
+
+import sun.java2d.pipe.DrawImage;
 
 public class Main extends JPanel implements KeyListener{
 	
@@ -20,6 +28,8 @@ public class Main extends JPanel implements KeyListener{
 	public Main() {
 		setUpPanel();
 		this.p = new Player(100, 400, 50, 75);
+		
+		repaint();
 	}
 	
 	/*Just the panel set up*/
@@ -36,7 +46,11 @@ public class Main extends JPanel implements KeyListener{
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		g.drawRect(this.p.getXPos(), this.p.getYPos(), this.p.getXSize(), this.p.getYSize());
+		if(this.p.getImages().size() > 0) {
+			g.drawImage(this.p.getImages().get(this.p.getIdxImg()), this.p.getXPos(), this.p.getYPos(), null);
+		}
+		
+		
 	}
 	
 	@Override
