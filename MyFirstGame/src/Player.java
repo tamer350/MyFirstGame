@@ -1,12 +1,12 @@
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-public class Player {
+public class Player implements KeyListener{
 	
 	/*Players position on board*/
 	private int x;
@@ -38,18 +38,48 @@ public class Player {
 	}
 	
 	public void xLine(int xl, int keyCode) {
-		if(xl > 0 && keyCode == 68) {
-			if(this.xs < this.maxSpeed) {
-				this.xs += this.xa;
+
+		if(keyCode == 68) {
+			if(xl > 0) {
+				if(getXSpeed() < getMaxSpeed()) {
+					setXSpeed(getXSpeed()+getXaAccel());
+				}
+				setXPos(getXPos()+getXSpeed());
 			}
 		}
-		else if(xl < 0 && keyCode == 68) {
-			if(this.xs > 0) {
-				this.xs -= this.xa;
-			}	
+		else if(keyCode == 65) {
+			if(xl < 0 ) {
+				if(getXSpeed() < getMaxSpeed()) {
+					setXSpeed(getXSpeed()+getXaAccel());
+				}
+				setXPos(getXPos()-getXSpeed());
+			}
 		}
-		this.x += this.xs;
-		System.out.println(this.xs);
+		
+		if(xs % 4 == 0) {
+			nextAnime();
+		}
+	}
+	
+	public void yLine(int yl, int keyCode) {
+
+		if(keyCode == 87) {
+			if(yl < 0) {
+				if(getYspeed() < getMaxSpeed()) {
+					setYSpeed(getYspeed()+getYAccel());
+				}
+				setYPos(getYPos()-getYspeed());
+			}
+		}
+		else if(keyCode == 83) {
+			if(yl > 0 ) {
+				if(getYspeed() < getMaxSpeed()) {
+					setYSpeed(getYspeed()+getYAccel());
+				}
+				setYPos(getYPos()+getYspeed());
+			}
+		}
+		
 		if(xs % 4 == 0) {
 			nextAnime();
 		}
@@ -155,5 +185,36 @@ public class Player {
 	
 	public int getIdxImg() {
 		return this.idxImg;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		System.out.println(key);
+		if(key == 68){//the letter D
+			this.xLine(1,key);
+		}
+		if(key == 65) {//the letter A
+			this.xLine(-1, key);
+		}
+		if(key == 87) {
+			this.yLine(-1, key);
+		}
+		if(key == 83) {
+			this.yLine(1, key);
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import sun.java2d.pipe.DrawImage;
 
-public class Main extends JPanel implements KeyListener{
+public class Main extends JPanel implements Runnable{
 	
 	/**
 	 * 
@@ -21,69 +21,44 @@ public class Main extends JPanel implements KeyListener{
 	private int frameXLoc = 350;
 	private int frameYLoc = 200;
 	
-	private Player p;
+	private Player player ;
+	Thread printer;
 	
 	JFrame frame;
+	//Canvas can;
 	
 	public Main() {
+		this.player = new Player(100, 400, 50, 75);
 		setUpPanel();
-		this.p = new Player(100, 400, 50, 75);
-		
-		repaint();
+		printer = new Thread(this);
+		printer.start();
+	}
+	
+	public void run() {
+		while(true) {
+			repaint();
+		}
 	}
 	
 	/*Just the panel set up*/
 	public void setUpPanel() {
-		//JPanel panel = new JPanel();
 		frame = new JFrame();
 		frame.add(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(this.frameXSize, this.frameYSize);
 		frame.setLocation(this.frameXLoc, this.frameYLoc);
-		frame.addKeyListener(this);
+		frame.addKeyListener(player);
 	}
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		if(this.p.getImages().size() > 0) {
-			g.drawImage(this.p.getImages().get(this.p.getIdxImg()), this.p.getXPos(), this.p.getYPos(), null);
+		if(player != null) {
+			g.drawImage(this.player.getImages().get(this.player.getIdxImg()), this.player.getXPos(), this.player.getYPos(), null);
 		}
-		
-		
 	}
 	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-		
-		if(key == 68){
-			p.xLine(1,key);
-		}
-		
-		this.repaint();
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-		int playsXs = p.getXSpeed();
-		while(playsXs > 0){
-			
-			p.xLine(-1, key);
-			this.repaint();	
-			playsXs = p.getXSpeed();
-			
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	
 	public static void main(String[] args) {
