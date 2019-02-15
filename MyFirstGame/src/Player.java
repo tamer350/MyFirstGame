@@ -45,6 +45,7 @@ public class Player implements KeyListener{
 					setXSpeed(getXSpeed()+getXaAccel());
 				}
 				setXPos(getXPos()+getXSpeed());
+				
 			}
 		}
 		else if(keyCode == 65) {
@@ -70,6 +71,7 @@ public class Player implements KeyListener{
 				}
 				setYPos(getYPos()-getYspeed());
 			}
+			
 		}
 		else if(keyCode == 83) {
 			if(yl > 0 ) {
@@ -191,7 +193,6 @@ public class Player implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
-		System.out.println(key);
 		if(key == 68){//the letter D
 			this.xLine(1,key);
 		}
@@ -199,10 +200,10 @@ public class Player implements KeyListener{
 			this.xLine(-1, key);
 		}
 		if(key == 87) {
-			this.yLine(-1, key);
+			this.yLine(-1, key);//the letter W
 		}
 		if(key == 83) {
-			this.yLine(1, key);
+			this.yLine(1, key);//the letter S
 		}
 		
 	}

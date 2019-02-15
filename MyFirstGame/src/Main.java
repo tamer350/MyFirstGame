@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import sun.java2d.pipe.DrawImage;
 
-public class Main extends JPanel implements Runnable{
+public class Main extends JPanel implements ActionListener{
 	
 	/**
 	 * 
@@ -21,8 +21,8 @@ public class Main extends JPanel implements Runnable{
 	private int frameXLoc = 350;
 	private int frameYLoc = 200;
 	
-	private Player player ;
-	Thread printer;
+	private Player player;
+	Timer printer;
 	
 	JFrame frame;
 	//Canvas can;
@@ -30,15 +30,11 @@ public class Main extends JPanel implements Runnable{
 	public Main() {
 		this.player = new Player(100, 400, 50, 75);
 		setUpPanel();
-		printer = new Thread(this);
+		printer = new Timer(10, this);
 		printer.start();
 	}
 	
-	public void run() {
-		while(true) {
-			repaint();
-		}
-	}
+	
 	
 	/*Just the panel set up*/
 	public void setUpPanel() {
@@ -64,6 +60,14 @@ public class Main extends JPanel implements Runnable{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
 	}
 
 	
