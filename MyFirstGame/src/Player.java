@@ -1,6 +1,8 @@
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+
 
 public class Player {
 
@@ -115,6 +117,10 @@ public class Player {
 	
 	private int getXVel() {
 		return this.xVel;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(getxPos(),getyPos(),img.getWidth(null), img.getHeight(null));
 	}
 
 }
