@@ -55,6 +55,11 @@ public class Player {
 	}
 
 	public void move() {
+		
+		setxPos(getxPos() + getXVel());
+	}
+	
+	public void jump() {
 		if(isJumping) {
 			this.yPos += this.jumpSpeed;
 			jumpSpeed += Y_ACCEL;
@@ -63,7 +68,6 @@ public class Player {
 				jumpSpeed = INIT_JUMPSPEED;
 			}
 		}
-		setxPos(getxPos() + getXVel());
 	}
 
 	
@@ -115,7 +119,7 @@ public class Player {
 		
 	}
 	
-	private int getXVel() {
+	public int getXVel() {
 		return this.xVel;
 	}
 	
