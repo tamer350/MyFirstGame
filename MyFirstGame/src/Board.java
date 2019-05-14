@@ -13,14 +13,13 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import org.w3c.dom.css.Rect;
-
 
 public class Board extends JPanel implements ActionListener{
 	
 	private final int B_WIDTH = 800, B_HEIGHT = 400, DELAY = 15;
 	private Player p;
-	private ArrayList<Stage>stg = new ArrayList<>();;
+	private ArrayList<Stage>wall = new ArrayList<>();
+	private ArrayList<Stage>floor = new ArrayList<>();
 	private Timer timer;
 	
 	
@@ -33,9 +32,11 @@ public class Board extends JPanel implements ActionListener{
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		
-		p = new Player("MyFirstGame/src/Images/Player/hitbox0.png", 300, 200);
-		stg.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 600, 100, 100, 200));
-		stg.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 100, 100, 100, 200));
+		p = new Player("MyFirstGame/src/Images/Player/hitbox1.png", 300, 0);
+		wall.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 0,100,200,200));
+		wall.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 600, 100, 200, 200));
+		floor.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 200, 150, 300, 50));
+		floor.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 500, 300, 300, 50));
 		timer = new Timer(DELAY, this);
 		timer.start();
 
@@ -47,49 +48,79 @@ public class Board extends JPanel implements ActionListener{
 	}
 
 	private void updatePlayer() {
-		if(p.isVisible()) {
-			Rectangle pRect = p.getBounds();
-			if(p.getXVel() > 0) {
-				if(!collision((int)pRect.getMaxX(), (int)pRect.getMinY(), (int)pRect.getHeight())) {
-					p.move();
-				}
-				p.jump();
-			}
-			else if(p.getXVel() < 0) {
-				if(!collision((int)pRect.getMinX(), (int)pRect.getMinY(), (int)pRect.getHeight())) {
-					p.move();
-				}
-				p.jump();
-			}
-			else {
-				p.move();
-				p.jump();
-			}
+		if(!collisionX() && (p.isMovingRight() ||p.isMovingLeft())) {
+			p.moveX();
 		}
+		
+		if(p.isJumping()) {
+			p.moveY();
+			p.setJumping(false);
+		}
+		else if(!collisionD()) {
+			p.setFalling(true);
+			p.moveY();
+		}
+		else if(p.isFalling()){
+			p.setFalling(false);
+		}
+		
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(p.getImage(), p.getxPos(), p.getyPos(), this);
-		for(Stage stage: stg) {
+		for(Stage stage: wall) {
+			g.drawImage(stage.getImg(), stage.getxPos(), stage.getyPos(), stage.getWidth(), stage.getHeight(), null);
+		}
+		for(Stage stage: floor) {
 			g.drawImage(stage.getImg(), stage.getxPos(), stage.getyPos(), stage.getWidth(), stage.getHeight(), null);
 		}
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
-	private boolean collision(int playerMaxX, int playerMinY, int playerHeight) {
-		for(Stage stage : stg) {
-		Rectangle stageR = stage.getBounds();
-		
-		for(int i = playerMinY; i < playerMinY+playerHeight; i++) {
-			Point p = new Point(playerMaxX, i);
-			if(stageR.contains(p)) {
-				return true;
+	public boolean collisionD() {
+		if(p.isVisible()) {
+			Rectangle pRect = p.getBounds();
+			int pY = (int)pRect.getMaxY();
+			int pXMin = (int)pRect.getMinX();
+			int pXMax = (int)pRect.getMaxX();
+			
+			for(Stage s: floor) {
+				Rectangle sRect = s.getBounds();
+				for(int i = pXMin; i < pXMax; i++) {
+					if(sRect.contains(new Point(i,pY))) {
+						return true;
+					}
+				}
 			}
 		}
+		return false;
+	}
+	public boolean collisionX() {
+		if(p.isVisible()) {
+			Rectangle pRect = p.getBounds();
+			int pX;
+			if(p.isMovingLeft()) {
+				pX = (int)pRect.getMinX();
+			}
+			else if(p.isMovingRight()) {
+				pX = (int)pRect.getMaxX();
+			}
+			else {
+				return false;
+			}
+			int pYMin = (int)pRect.getMinY();
+			int pYMax = (int)pRect.getMaxY();
+			for(Stage s: wall) {
+				Rectangle sRect = s.getBounds();
+				for(int i = pYMin; i < pYMax; i++) {
+					if(sRect.contains(new Point(pX, i))){
+						return true;
+					}
+				}
+			}
 		}
-		
 		return false;
 	}
 	
