@@ -21,6 +21,7 @@ public class Board extends JPanel implements ActionListener{
 	private ArrayList<Stage>wall = new ArrayList<>();
 	private ArrayList<Stage>floor = new ArrayList<>();
 	private Timer timer;
+	private String wallPic = "MyFirstGame/src/Images/stage/wall.png", floorPic = "MyFirstGame/src/Images/stage/floor.png";
 	
 	
 	public Board() {
@@ -33,10 +34,11 @@ public class Board extends JPanel implements ActionListener{
 		setFocusable(true);
 		
 		p = new Player("MyFirstGame/src/Images/Player/hitbox1.png", 300, 0);
-		wall.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 0,100,200,200));
-		wall.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 600, 100, 200, 200));
-		floor.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 200, 150, 300, 50));
-		floor.add(new Stage("MyFirstGame/src/Images/stage/wall_floor.png", 500, 300, 300, 50));
+		floor.add(new Stage(floorPic, 0, 100, 100, 10));
+		floor.add(new Stage(floorPic, 100, 200, 100, 10));
+		floor.add(new Stage(floorPic, 200, 300, 200, 50));
+		wall.add(new Stage(wallPic, 80, 110, 20, 150));
+		wall.add(new Stage(wallPic, 180, 210, 20, 150));
 		timer = new Timer(DELAY, this);
 		timer.start();
 

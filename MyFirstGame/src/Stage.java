@@ -65,7 +65,7 @@ public class Stage {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(getxPos(),getyPos(),getWidth(),getHeight());
+		return new Rectangle(getxPos(),getyPos() ,getWidth(),getHeight());
 		
 	}
 	

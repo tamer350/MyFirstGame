@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Player {
 
 	private Image img;
-	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 2, Y_ACCEL = 2, X_MAX = 5, Y_MAX = 10;
+	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 2, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
 	private int xPos, yPos, jumpSpeed, xVel, yVel;
 	private boolean visible, isJumping, isFalling, movingLeft, movingRight;
 	
