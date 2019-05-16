@@ -36,9 +36,17 @@ public class Board extends JPanel implements ActionListener{
 		p = new Player("MyFirstGame/src/Images/Player/hitbox1.png", 300, 0);
 		floor.add(new Stage(floorPic, 0, 100, 100, 10));
 		floor.add(new Stage(floorPic, 100, 200, 100, 10));
-		floor.add(new Stage(floorPic, 200, 300, 200, 50));
+		floor.add(new Stage(floorPic, 200, 300, 200, 10));
+		floor.add(new Stage(floorPic, 400, 250, 100, 10));
+		floor.add(new Stage(floorPic, 500, 200, 100, 10));
+		floor.add(new Stage(floorPic, 600, 150, 100, 10));
+		floor.add(new Stage(floorPic, 700, 100, 100, 10));
 		wall.add(new Stage(wallPic, 80, 110, 20, 150));
 		wall.add(new Stage(wallPic, 180, 210, 20, 150));
+		wall.add(new Stage(wallPic, 400, 260, 20, 150));
+		wall.add(new Stage(wallPic, 500, 210, 20, 150));
+		wall.add(new Stage(wallPic, 600, 160, 20, 150));
+		wall.add(new Stage(wallPic, 700, 110, 20, 150));
 		timer = new Timer(DELAY, this);
 		timer.start();
 

@@ -154,7 +154,7 @@ public class Player {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(getxPos(),getyPos(),img.getWidth(null), img.getHeight(null));
+		return new Rectangle(getxPos() +2,getyPos() +2,img.getWidth(null)-1, img.getHeight(null)-1);
 	}
 
 	public boolean isMovingRight() {
