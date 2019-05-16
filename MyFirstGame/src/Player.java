@@ -3,11 +3,15 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-
+/**
+ * OH GAWD WHY DID I LEAVE THIS TILL NOW
+ * OH future Anish can work on this
+ * it'll most likely change
+ * thanks future Anish*/
 public class Player {
 
 	private Image img;
-	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 2, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
+	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 3, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
 	private int xPos, yPos, jumpSpeed, xVel, yVel;
 	private boolean visible, isJumping, isFalling, movingLeft, movingRight;
 	
@@ -146,7 +150,6 @@ public class Player {
 			this.yVel += yA;
 		}
 		
-		System.out.println(yVel);
 	}
 	
 	public int getYVel() {
@@ -154,7 +157,7 @@ public class Player {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(getxPos() +2,getyPos() +2,img.getWidth(null)-1, img.getHeight(null)-1);
+		return new Rectangle(getxPos() +2,getyPos() +1,img.getWidth(null)-1, img.getHeight(null));
 	}
 
 	public boolean isMovingRight() {

@@ -93,8 +93,8 @@ public class Board extends JPanel implements ActionListener{
 		if(p.isVisible()) {
 			Rectangle pRect = p.getBounds();
 			int pY = (int)pRect.getMaxY();
-			int pXMin = (int)pRect.getMinX();
-			int pXMax = (int)pRect.getMaxX();
+			int pXMin = (int)pRect.getMinX() + 1;
+			int pXMax = (int)pRect.getMaxX() - 1;
 			
 			for(Stage s: floor) {
 				Rectangle sRect = s.getBounds();
