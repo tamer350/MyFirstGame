@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
@@ -11,16 +12,28 @@ public class Stage {
 				height, width; //Dimension of block
 	private boolean visible; // will be used when I implement stage movement
 	
+	enum type { WALL, FLOOR};
+	private type t;
+	
 	/**
 	 * Constructor, image file location, positioning, dimension, very simple
 	 * */
-	public Stage(String img,int x,int y, int width, int height) {
+	public Stage(String img,int x,int y, int width, int height, type t) {
 		setImage(img);
 		setxPos(x);
 		setyPos(y);
 		setWidth(width);
 		setHeight(height);
+		setType(t);
 		setVisible(true);
+	}
+	
+	private void setType(type t) {
+		this.t= t;
+	}
+	
+	public type getType() {
+		return this.t;
 	}
 	
 	/**
