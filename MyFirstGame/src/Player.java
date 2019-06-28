@@ -1,6 +1,9 @@
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -13,16 +16,20 @@ public class Player {
 
 	private Image img;
 	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 3, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
-	private int xPos, yPos, jumpSpeed, xVel, yVel;
-	private boolean visible, isJumping, isFalling, movingLeft, movingRight;
+	private int xPos, yPos, width, height, jumpSpeed, xVel, yVel;
+	private boolean visible, isJumping, isFalling, movingLeft, movingRight, facingLeft = true, facingRight = false;
+	private ArrayList<Image> left;
+	private int leftIndex;
 	
-	public Player(String img,int x,int y) {
-		setImage(img);
+	public Player(int x,int y, int width, int height) {
+		setImage();
 		setxPos(x);
 		setyPos(y);
+		setWidth(width);
+		setHeight(height);
 		setVisible(true);
 	}
-	
+
 	public boolean isVisible() {
 		return visible;
 	}
@@ -31,16 +38,32 @@ public class Player {
 		this.visible = b;
 	}
 
-	public void setImage(String img2) {
-		ImageIcon ii = new ImageIcon(img2);
-		this.img = ii.getImage();
+	public void setImage() {
+		left = new ArrayList<>();
+		ImageIcon ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
+		left.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left2.png");
+		left.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
+		left.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left3.png");
+		left.add(ii.getImage());
+		leftIndex = 0;
 	}
 	
 	public Image getImage() {
-		if(img != null) {
-			return this.img;
+		if(movingLeft) {
+			int lI = leftIndex;
+			leftIndex++;
+			if(leftIndex >= left.size()) {
+				leftIndex = 0;
+			}
+			return left.get(lI);
 		}
-		return null;
+		else if(facingLeft) {
+			return left.get(0);
+		}
+		return left.get(0);
 	}
 	
 	public void setxPos(int xPos) {
@@ -57,6 +80,26 @@ public class Player {
 
 	public int getyPos() {
 		return yPos;
+	}
+	
+	private void setHeight(int height) {
+		this.height = height;
+		
+	}
+
+	private void setWidth(int width) {
+		this.width = width;
+		
+	}
+	
+	public int getWidth() {
+		// TODO Auto-generated method stub
+		return this.width;
+	}
+
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return this.height;
 	}
 
 	public void moveX() {
@@ -132,6 +175,9 @@ public class Player {
 		else {
 			setXVel(-X_ACCEL);
 		}
+	
+		this.facingLeft = false;
+		this.facingRight = true;
 	}
 	
 	public boolean isMovingRight() {
@@ -139,6 +185,9 @@ public class Player {
 	}
 
 	public void setMovingLeft(boolean movingLeft) {
+		if(this.movingLeft == movingLeft) {
+			return;
+		}
 		this.movingLeft = movingLeft;
 		if(movingLeft) {
 			setXVel(-X_ACCEL);
@@ -146,6 +195,8 @@ public class Player {
 		else {
 			setXVel(X_ACCEL);
 		}
+		this.facingLeft = true;
+		this.facingRight = false;
 	}
 
 	public boolean isMovingLeft() {
@@ -153,7 +204,7 @@ public class Player {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(getxPos() +2,getyPos() +1,img.getWidth(null)-1, img.getHeight(null));
+		return new Rectangle(getxPos() +2,getyPos() +1,100-1, 100);
 	}
 	
 	public void keyReleased(KeyEvent e) {
@@ -188,6 +239,8 @@ public class Player {
 		
 	}
 
-	
+	public void drawImage(Graphics g) {
+		g.drawImage(getImage(), getxPos(), getyPos(), getWidth(),getHeight(), null);
+	}
 
 }

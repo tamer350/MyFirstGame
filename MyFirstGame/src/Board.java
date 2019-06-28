@@ -9,11 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
-import com.sun.org.glassfish.external.arc.Stability;
+
 
 
 public class Board extends JPanel implements ActionListener{
@@ -35,7 +36,7 @@ public class Board extends JPanel implements ActionListener{
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		
-		p = new Player("MyFirstGame/src/Images/Player/hitbox1.png", 300, 0);
+		p = new Player(300, 0,100,100);//give player its own folder instead
 		stage.add(new Stage(floorPic, 0, 100, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 100, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 200, 300, 200, 10, Stage.type.FLOOR));
@@ -52,12 +53,21 @@ public class Board extends JPanel implements ActionListener{
 		stage.add(new Stage(floorPic, 800, 100, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 900, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 1000, 300, 200, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1100, 250, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1200, 200, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1300, 150, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1400, 100, 100, 10, Stage.type.FLOOR));
-		timer = new Timer(DELAY, this);
-		timer.start();
+		stage.add(new Stage(floorPic, 1200, 250, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage(floorPic, 1300, 200, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage(floorPic, 1400, 150, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage(floorPic, 1500, 100, 100, 10, Stage.type.FLOOR));
+		timer = new Timer();
+		TimerTask timerTask = new TimerTask() {
+			
+			@Override
+			public void run() {
+				updatePlayer();
+				updateStage();
+				repaint();
+			}
+		};
+		timer.schedule(timerTask, DELAY, 150);
 
 	}
 	@Override
@@ -67,8 +77,9 @@ public class Board extends JPanel implements ActionListener{
 		repaint();
 	}
 	
+	//moves stage need more work to be done
 	private void updateStage() {
-		int xposNew = 0;
+		/*int xposNew = 0;
 		if(moveR && !collisionX()) {
 			xposNew = -3;
 		}
@@ -80,7 +91,7 @@ public class Board extends JPanel implements ActionListener{
 		for(Stage s: stage) {
 			s.setxPos(s.getxPos() + xposNew);
 		}
-		}
+		}*/
 	}
 
 	private void updatePlayer() {
@@ -105,7 +116,7 @@ public class Board extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(p.getImage(), p.getxPos(), p.getyPos(), this);
+		p.drawImage(g);
 		for(Stage s: stage) {
 			g.drawImage(s.getImg(), s.getxPos(), s.getyPos(), s.getWidth(), s.getHeight(), null);
 		}
@@ -171,10 +182,12 @@ public class Board extends JPanel implements ActionListener{
 			int key = e.getKeyCode();
 			switch (key){
 				case KeyEvent.VK_D:
-					moveR = false;
+					//moveR = false;
+					p.setMovingRight(false);
 					break;
 				case KeyEvent.VK_A:
-					moveL = false;
+					//moveL = false;
+					p.setMovingLeft(false);
 					break;
 				case KeyEvent.VK_W:
 					p.keyReleased(e);
@@ -188,10 +201,11 @@ public class Board extends JPanel implements ActionListener{
 			int key = e.getKeyCode();
 			switch (key){
 				case KeyEvent.VK_D:
-					moveR = true;
+					//moveR = true;
+					p.setMovingRight(true);
 					break;
 				case KeyEvent.VK_A:
-					moveL = true;
+					p.setMovingLeft(true);
 					break;
 				case KeyEvent.VK_W:
 					p.keyPressed(e);
