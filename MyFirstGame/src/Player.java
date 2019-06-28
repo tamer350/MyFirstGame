@@ -204,7 +204,7 @@ public class Player {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(getxPos() +2,getyPos() +1,100-1, 100);
+		return new Rectangle(getxPos() +2,getyPos() +1,getWidth()-1, getHeight());
 	}
 	
 	public void keyReleased(KeyEvent e) {
