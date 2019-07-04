@@ -82,7 +82,8 @@ public class Board extends JPanel implements ActionListener{
 		for(Stage s: stage) {
 			s.setxPos(s.getxPos() + xposNew);
 		}
-		}
+		} 
+		
 	}
 
 	private void updatePlayer() {

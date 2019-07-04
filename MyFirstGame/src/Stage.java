@@ -20,6 +20,7 @@ public class Stage {
 	/**
 	 * Constructor, image file location, positioning, dimension, very simple
 	 * */
+	
 	public Stage(int x,int y, int width, int height, type t) {
 		setxPos(x);
 		setyPos(y);
