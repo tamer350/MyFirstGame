@@ -18,9 +18,9 @@ public class Player {
 	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 3, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
 	private int xPos, yPos, width, height, jumpSpeed, xVel, yVel;
 	private boolean visible, isJumping, isFalling, movingLeft, movingRight, facingLeft = true, facingRight = false;
-	private ArrayList<Image> left;
-	private int leftIndex;
-	private long start = System.currentTimeMillis();
+	private ArrayList<Image> left, right;
+	private int leftIndex = 0, rightIndex = 0;
+	private long start;
 	
 	public Player(int x,int y, int width, int height) {
 		setImages();
@@ -43,6 +43,7 @@ public class Player {
 		left = new ArrayList<>();
 		ImageIcon ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
 		img = ii.getImage();
+		
 		left.add(ii.getImage());
 		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left2.png");
 		left.add(ii.getImage());
@@ -50,7 +51,17 @@ public class Player {
 		left.add(ii.getImage());
 		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left3.png");
 		left.add(ii.getImage());
-		leftIndex = 0;
+		
+		right = new ArrayList<>();
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right1.png");
+		img = ii.getImage();
+		right.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right2.png");
+		right.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right1.png");
+		right.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right3.png");
+		right.add(ii.getImage());
 	}
 	
 	public void setImg(Image img) {
@@ -167,6 +178,8 @@ public class Player {
 			setXVel(X_ACCEL);
 		}
 		else {
+			rightIndex = 0;
+			setImg(right.get(rightIndex));
 			setXVel(-X_ACCEL);
 		}
 	
@@ -198,6 +211,7 @@ public class Player {
 		}
 		this.facingLeft = true;
 		this.facingRight = false;
+		
 	}
 
 	public boolean isMovingLeft() {
@@ -236,7 +250,7 @@ public class Player {
 		if(key == KeyEvent.VK_A) {
 			setMovingLeft(true);
 		}
-		
+		start = System.currentTimeMillis();
 		
 	}
 
@@ -250,6 +264,17 @@ public class Player {
 					leftIndex = 0;
 				}
 				setImg(left.get(leftIndex));
+			}
+		}
+		else if(isMovingRight()) {
+			long finish = System.currentTimeMillis();
+			if(finish -start >= 75) {
+				start = System.currentTimeMillis();
+				rightIndex++;
+				if(rightIndex >= right.size()) {
+					rightIndex = 0;
+				}
+				setImg(right.get(rightIndex));
 			}
 		}
 		g.drawImage(getImage(), getxPos(), getyPos(), getWidth(),getHeight(), null);
