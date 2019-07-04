@@ -9,10 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 
@@ -57,17 +57,8 @@ public class Board extends JPanel implements ActionListener{
 		stage.add(new Stage(floorPic, 1300, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 1400, 150, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 1500, 100, 100, 10, Stage.type.FLOOR));
-		timer = new Timer();
-		TimerTask timerTask = new TimerTask() {
-			
-			@Override
-			public void run() {
-				updatePlayer();
-				updateStage();
-				repaint();
-			}
-		};
-		timer.schedule(timerTask, DELAY, 150);
+		timer = new Timer(DELAY,this);
+		timer.start();
 
 	}
 	@Override

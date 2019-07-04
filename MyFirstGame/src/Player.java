@@ -20,9 +20,10 @@ public class Player {
 	private boolean visible, isJumping, isFalling, movingLeft, movingRight, facingLeft = true, facingRight = false;
 	private ArrayList<Image> left;
 	private int leftIndex;
+	private long start = System.currentTimeMillis();
 	
 	public Player(int x,int y, int width, int height) {
-		setImage();
+		setImages();
 		setxPos(x);
 		setyPos(y);
 		setWidth(width);
@@ -38,9 +39,10 @@ public class Player {
 		this.visible = b;
 	}
 
-	public void setImage() {
+	public void setImages() {
 		left = new ArrayList<>();
 		ImageIcon ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
+		img = ii.getImage();
 		left.add(ii.getImage());
 		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left2.png");
 		left.add(ii.getImage());
@@ -51,19 +53,11 @@ public class Player {
 		leftIndex = 0;
 	}
 	
+	public void setImg(Image img) {
+		this.img = img;
+	}
 	public Image getImage() {
-		if(movingLeft) {
-			int lI = leftIndex;
-			leftIndex++;
-			if(leftIndex >= left.size()) {
-				leftIndex = 0;
-			}
-			return left.get(lI);
-		}
-		else if(facingLeft) {
-			return left.get(0);
-		}
-		return left.get(0);
+		return this.img;
 	}
 	
 	public void setxPos(int xPos) {
@@ -184,15 +178,22 @@ public class Player {
 		return movingRight;
 	}
 
+	/**
+	 * heres what we need to do, we need to make a timer that starts when player starts moving
+	 * check time after every 150 millieseconds
+	 * then update the image
+	 * if we can do this, timer can go back to standard timer*/
 	public void setMovingLeft(boolean movingLeft) {
 		if(this.movingLeft == movingLeft) {
 			return;
 		}
 		this.movingLeft = movingLeft;
-		if(movingLeft) {
+		if(isMovingLeft()) {
 			setXVel(-X_ACCEL);
 		}
 		else {
+			leftIndex = 0;
+			setImg(left.get(leftIndex));
 			setXVel(X_ACCEL);
 		}
 		this.facingLeft = true;
@@ -240,6 +241,17 @@ public class Player {
 	}
 
 	public void drawImage(Graphics g) {
+		if(isMovingLeft()) {
+			long finish = System.currentTimeMillis();
+			if(finish -start >= 75) {
+				start = System.currentTimeMillis();
+				leftIndex++;
+				if(leftIndex >= left.size()) {
+					leftIndex = 0;
+				}
+				setImg(left.get(leftIndex));
+			}
+		}
 		g.drawImage(getImage(), getxPos(), getyPos(), getWidth(),getHeight(), null);
 	}
 
