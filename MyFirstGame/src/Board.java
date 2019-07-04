@@ -36,7 +36,7 @@ public class Board extends JPanel implements ActionListener{
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		
-		p = new Player(300, 0,100,100);//give player its own folder instead
+		p = new Player(0, 0,100,100);//give player its own folder instead
 		stage.add(new Stage(floorPic, 0, 100, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 100, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage(floorPic, 200, 300, 200, 10, Stage.type.FLOOR));
@@ -70,11 +70,11 @@ public class Board extends JPanel implements ActionListener{
 	
 	//moves stage need more work to be done
 	private void updateStage() {
-		/*int xposNew = 0;
-		if(moveR && !collisionX()) {
+		int xposNew = 0;
+		if(!collisionX() && p.isMovingRight() && p.getxPos() >= 300) {
 			xposNew = -3;
 		}
-		else if(moveL && !collisionX()) {
+		else if(!collisionX() && p.isMovingLeft()) {
 			xposNew = 3;
 		}
 		
@@ -82,11 +82,11 @@ public class Board extends JPanel implements ActionListener{
 		for(Stage s: stage) {
 			s.setxPos(s.getxPos() + xposNew);
 		}
-		}*/
+		}
 	}
 
 	private void updatePlayer() {
-		if(!collisionX() && (p.isMovingRight() ||p.isMovingLeft())) {
+		if(!collisionX() && (p.isMovingRight() ||p.isMovingLeft()) && p.getxPos() <= 300) {
 			p.moveX();
 		}
 		
@@ -173,11 +173,9 @@ public class Board extends JPanel implements ActionListener{
 			int key = e.getKeyCode();
 			switch (key){
 				case KeyEvent.VK_D:
-					//moveR = false;
 					p.setMovingRight(false);
 					break;
 				case KeyEvent.VK_A:
-					//moveL = false;
 					p.setMovingLeft(false);
 					break;
 				case KeyEvent.VK_W:
@@ -192,7 +190,6 @@ public class Board extends JPanel implements ActionListener{
 			int key = e.getKeyCode();
 			switch (key){
 				case KeyEvent.VK_D:
-					//moveR = true;
 					p.setMovingRight(true);
 					break;
 				case KeyEvent.VK_A:
