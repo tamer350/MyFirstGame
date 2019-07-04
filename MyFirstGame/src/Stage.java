@@ -12,19 +12,26 @@ public class Stage {
 				height, width; //Dimension of block
 	private boolean visible; // will be used when I implement stage movement
 	
+	private String wallPic = "MyFirstGame/src/Images/stage/wall.png", floorPic = "MyFirstGame/src/Images/stage/floor.png";
+	
 	enum type { WALL, FLOOR};
 	private type t;
 	
 	/**
 	 * Constructor, image file location, positioning, dimension, very simple
 	 * */
-	public Stage(String img,int x,int y, int width, int height, type t) {
-		setImage(img);
+	public Stage(int x,int y, int width, int height, type t) {
 		setxPos(x);
 		setyPos(y);
 		setWidth(width);
 		setHeight(height);
 		setType(t);
+		if(getType() == type.WALL) {
+			setImage(wallPic);
+		}
+		else if(getType() == type.FLOOR) {
+			setImage(floorPic);
+		}
 		setVisible(true);
 	}
 	

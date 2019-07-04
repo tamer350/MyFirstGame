@@ -37,26 +37,26 @@ public class Board extends JPanel implements ActionListener{
 		setFocusable(true);
 		
 		p = new Player(0, 0,100,100);//give player its own folder instead
-		stage.add(new Stage(floorPic, 0, 100, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 100, 200, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 200, 300, 200, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 400, 250, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 500, 200, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 600, 150, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 700, 100, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(wallPic, 90, 110, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(wallPic, 190, 210, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(wallPic, 400, 260, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(wallPic, 500, 210, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(wallPic, 600, 160, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(wallPic, 700, 110, 10, 150, Stage.type.WALL));
-		stage.add(new Stage(floorPic, 800, 100, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 900, 200, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1000, 300, 200, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1200, 250, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1300, 200, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1400, 150, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage(floorPic, 1500, 100, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 0, 100, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 100, 200, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 200, 300, 200, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 400, 250, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 500, 200, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 600, 150, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 700, 100, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 90, 110, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 190, 210, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 400, 260, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 500, 210, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 600, 160, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 700, 110, 10, 150, Stage.type.WALL));
+		stage.add(new Stage( 800, 100, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 900, 200, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1000, 300, 200, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1200, 250, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1300, 200, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1400, 150, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1500, 100, 100, 10, Stage.type.FLOOR));
 		timer = new Timer(DELAY,this);
 		timer.start();
 
@@ -68,13 +68,13 @@ public class Board extends JPanel implements ActionListener{
 		repaint();
 	}
 	
-	//moves stage need more work to be done
+	
 	private void updateStage() {
 		int xposNew = 0;
-		if(!collisionX() && p.isMovingRight() && p.getxPos() >= 300) {
+		if(!collisionX() && p.isMovingRight() && p.getxPos() >= 300 && stage.get(stage.size()-1).getxPos() + stage.get(stage.size()-1).getWidth() >= this.B_WIDTH) {
 			xposNew = -3;
 		}
-		else if(!collisionX() && p.isMovingLeft()) {
+		else if(!collisionX() && p.isMovingLeft() && stage.get(0).getxPos() <=0 && p.getxPos() <= this.B_WIDTH -300) {
 			xposNew = 3;
 		}
 		
@@ -86,7 +86,13 @@ public class Board extends JPanel implements ActionListener{
 	}
 
 	private void updatePlayer() {
-		if(!collisionX() && (p.isMovingRight() ||p.isMovingLeft()) && p.getxPos() <= 300) {
+		if(!collisionX()//checks collision x axis 
+				&&((p.isMovingRight()//and if characters moving right
+						&& (p.getxPos() <= 300)//and if characters position is at 300 
+						|| stage.get(stage.size()-1).getxPos() + stage.get(stage.size()-1).getWidth() <= this.B_WIDTH)//or if the end of the stage is shown
+				||(p.isMovingLeft()//or if player is moving left
+						&& (stage.get(0).getxPos() >= 0)//and beginning of stage is shown
+						|| p.getxPos() >= this.B_WIDTH - 300))) {//or if characters position is at width - 300 
 			p.moveX();
 		}
 		
