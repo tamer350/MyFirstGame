@@ -8,11 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 
 
@@ -38,7 +48,7 @@ public class Board extends JPanel implements ActionListener{
 		
 		p = new Player(0, 0,100,100);//give player its own folder instead
 		stage.add(new Stage( 0, 100, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage( 100, 200, 100, 10, Stage.type.FLOOR));
+		/*stage.add(new Stage( 100, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage( 200, 300, 200, 10, Stage.type.FLOOR));
 		stage.add(new Stage( 400, 250, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage( 500, 200, 100, 10, Stage.type.FLOOR));
@@ -56,11 +66,45 @@ public class Board extends JPanel implements ActionListener{
 		stage.add(new Stage( 1200, 250, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage( 1300, 200, 100, 10, Stage.type.FLOOR));
 		stage.add(new Stage( 1400, 150, 100, 10, Stage.type.FLOOR));
-		stage.add(new Stage( 1500, 100, 100, 10, Stage.type.FLOOR));
+		stage.add(new Stage( 1500, 100, 100, 10, Stage.type.FLOOR));*/
+		initStage();
 		timer = new Timer(DELAY,this);
 		timer.start();
 
 	}
+	private void initStage() {
+		try {
+			File xmlFile = new File("MyFirstGame/src/levels/Levels.xml");
+			DocumentBuilderFactory dbFact = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuild = dbFact.newDocumentBuilder();
+			Document doc = dBuild.parse(xmlFile);
+			Node stageinfile = doc.getElementsByTagName("stage").item(0);
+			NodeList blocksList = stageinfile.getChildNodes();
+			for(int i = 0; i<blocksList.getLength(); i++) {
+				Node child = blocksList.item(i);
+				if(child.getNodeType() == Node.ELEMENT_NODE) {
+					Element block = (Element)child;
+					int xpos = Integer.parseInt(block.getAttribute("xpos"));
+					int ypos = Integer.parseInt(block.getAttribute("ypos"));
+					String type = block.getElementsByTagName("type").item(0).getTextContent();
+					
+					if(type.equalsIgnoreCase("wall")) {
+						int height = Integer.parseInt(block.getElementsByTagName("length").item(0).getTextContent()) * 10;
+						stage.add(new Stage(xpos, ypos, 10, height, Stage.type.WALL));
+					}
+					else if(type.equalsIgnoreCase("floor")) {
+						int width = Integer.parseInt(block.getElementsByTagName("length").item(0).getTextContent()) * 10;
+						stage.add(new Stage(xpos, ypos, width, 10, Stage.type.FLOOR));
+					}
+					
+				}
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		updatePlayer();
