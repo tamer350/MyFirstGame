@@ -18,8 +18,8 @@ public class Player {
 	private final int INIT_JUMPSPEED = -20, JUMPMAX = 20, X_ACCEL = 3, Y_ACCEL = 2, X_MAX = 3, Y_MAX = 10;
 	private int xPos, yPos, width, height, jumpSpeed, xVel, yVel;
 	private boolean visible, isJumping, isFalling, movingLeft, movingRight, facingLeft = true, facingRight = false;
-	private ArrayList<Image> left, right;
-	private int leftIndex = 0, rightIndex = 0;
+	private ArrayList<Image> left, right, lIdle, rIdle;
+	private int leftIndex = 0, rightIndex = 0, lIdleIndex = 0, rIdleIndex = 0;
 	private long start;
 	
 	public Player(int x,int y, int width, int height) {
@@ -41,27 +41,14 @@ public class Player {
 
 	public void setImages() {
 		left = new ArrayList<>();
-		ImageIcon ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
-		img = ii.getImage();
+		lIdle = new ArrayList<>();
+		ImageIcon ii = new ImageIcon("MyFirstGame/src/Images/Player/Player_Left_1.png");
+		lIdle.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/Player_Idle_Left_1.png");
+		lIdle.add(ii.getImage());
+		ii = new ImageIcon("MyFirstGame/src/Images/Player/Player_Idle_Left_2.png");
+		lIdle.add(ii.getImage());
 		
-		left.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left2.png");
-		left.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left1.png");
-		left.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_left3.png");
-		left.add(ii.getImage());
-		
-		right = new ArrayList<>();
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right1.png");
-		img = ii.getImage();
-		right.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right2.png");
-		right.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right1.png");
-		right.add(ii.getImage());
-		ii = new ImageIcon("MyFirstGame/src/Images/Player/player_right3.png");
-		right.add(ii.getImage());
 	}
 	
 	public void setImg(Image img) {
@@ -276,6 +263,17 @@ public class Player {
 				}
 				setImg(right.get(rightIndex));
 			}
+		}
+		else if(facingLeft) {
+			long finish = System.currentTimeMillis();
+			if(finish - start >= 250) {
+				start = System.currentTimeMillis();
+				lIdleIndex++;
+				if(lIdleIndex >= lIdle.size()) {
+					lIdleIndex = 0;
+				}
+			}
+			setImg(lIdle.get(lIdleIndex));
 		}
 		g.drawImage(getImage(), getxPos(), getyPos(), getWidth(),getHeight(), null);
 	}

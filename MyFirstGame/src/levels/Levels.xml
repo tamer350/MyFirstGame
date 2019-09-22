@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level id ="1">
 	<stage>
-		<block xpos ="0" ypos="0">
-			<type>wall</type>
-			<length>10</length>
-		</block>
-		<block xpos ="100" ypos="100">
-			<type>wall</type>
-			<length>10</length>
-		</block>
-		<block xpos ="200" ypos="200">
-			<type>wall</type>
-			<length>10</length>
-		</block>
-		<block xpos ="300" ypos="300">
-			<type>wall</type>
-			<length>10</length>
-		</block>
-		<block xpos ="0" ypos="100">
+		<block xpos ="0" ypos="200">
 			<type>floor</type>
-			<length>10</length>
-		</block>
-		<block xpos ="100" ypos="200">
-			<type>floor</type>
-			<length>10</length>
-		</block>
-		<block xpos ="200" ypos="300">
-			<type>floor</type>
-			<length>10</length>
-		</block>
-		<block xpos ="300" ypos="400">
-			<type>floor</type>
-			<length>10</length>
+			<length>5000</length>
 		</block>
 	</stage>
 </level>
